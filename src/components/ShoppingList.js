@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import Item from "./Item";
 
 function ShoppingList({ items }) {
+
+  const [gro, setGro] = useState(items)
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const groToDisplay = gro.filter((gro) => {
+    if (selectedCategory === 'All') {
+      return true;
+    } else {
+      return gro.category === selectedCategory;
+    }
+  })
+
+  function handleFilterChange(event) {
+    setSelectedCategory(event.target.value);
+  }
+
+  const groList = groToDisplay.map((item) => (
+    <li key={item.id} onClick={() => handleFilterChange(item.id)}>
+      
+    </li>
+  ))
+  
+
   return (
     <div className="ShoppingList">
       <div className="Filter">
-        <select name="filter">
+        <select name="filter" onChange={handleFilterChange}>
           <option value="All">Filter by category</option>
           <option value="Produce">Produce</option>
           <option value="Dairy">Dairy</option>
